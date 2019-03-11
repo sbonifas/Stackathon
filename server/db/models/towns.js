@@ -1,13 +1,11 @@
-const crypto = require('crypto')
 const Sequelize = require('sequelize')
-const db = require('../db')
+const { db} = require('../db')
 
 const Towns = db.define('towns', {
   gid: {
     type: Sequelize.INTEGER,
-    unique: true,
-    allowNull: false,
-    primaryKey: true
+    primaryKey: true,
+    autoIncrement: true
   },
   town: Sequelize.STRING,
   town_id: Sequelize.INTEGER,
@@ -31,7 +29,17 @@ const Towns = db.define('towns', {
   popch00_10: Sequelize.INTEGER,
   shape_area: Sequelize.FLOAT,
   shape_len: Sequelize.FLOAT,
-  geom: Sequelize.GEOMETRY
+  geom: Sequelize.GEOMETRY( 'POLYGON', 26986),
+  // createdAt: {
+  //   allowNull: false,
+  //   defaultValue: new Date(),
+  //   type: Sequelize.DATE
+  // },
+  // updatedAt: {
+  //   allowNull: false,
+  //   defaultValue: new Date(),
+  //   type: Sequelize.DATE
+  // }
 })
 
 module.exports = Towns
