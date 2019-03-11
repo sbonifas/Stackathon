@@ -36,10 +36,14 @@ class Towns extends React.Component {
             {this.props.towns.map( town => {
               return <option value={ town.gid} key={ town.gid}>  { town.town} - { Number( town.square_mil).toFixed(2)} sq. mi.</option>
             })}
-          </select>
+          </select><br/>
           <input type='checkbox' name='All Towns' onClick={ this.allTownName} />Include all polygons with the same town name.
-          </form>
-          <h2>Zip Code Tabulation Areas</h2>
+        </form>
+        <div>
+          <div>
+            {(this.props.town.gid) ? (<div><p><b>Town:</b> { this.props.town.town}<b>Population 2010:</b>{this.props.town.pop2010}</p>
+            <h2>Zip Code Tabulation Areas</h2></div>) : ''}
+          </div>
           <div>
             {this.props.zctas.map( zcta => {
               return <p key={ zcta.zcta}>
@@ -49,6 +53,7 @@ class Towns extends React.Component {
               <b>Longitude: </b> { Number( zcta.longitude).toFixed( 4)}</p>
             })}
           </div>
+        </div>
       </div>
     )
   }

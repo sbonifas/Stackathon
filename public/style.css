@@ -9,6 +9,9 @@ a {
 label {
   display: block;
 }
+input {
+  margin: 10px;
+}
 
 nav a {
   display: inline-block;
