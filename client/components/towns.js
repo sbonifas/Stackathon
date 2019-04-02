@@ -95,7 +95,7 @@ class Towns extends React.Component {
         </div>
       </div>
       <div className='col'>
-        <canvas id="myCanvas" width="500" height="400" style={{ border:'1px solid #000000'}}/>
+        <canvas id="myCanvas" width="500" height="400"/>
       </div>
       </div>
     )
