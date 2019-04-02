@@ -25,3 +25,11 @@ form div {
 b {
   margin: 10px;
 }
+.row {
+  display: flex;
+}
+
+.col {
+  flex: 50%;
+  margin: 20px;
+}

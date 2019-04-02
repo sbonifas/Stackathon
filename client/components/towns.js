@@ -16,20 +16,46 @@ class Towns extends React.Component {
   componentDidMount() {
     this.props.fetchAllTowns()
   }
-  changeTown( event) {
+  async changeTown( event) {
     if (this.allTowns) {
-      this.props.fetchTownZCTAs( event.target.value)
+      await this.props.fetchTownZCTAs( event.target.value)
     } else {
-      this.props.fetchZCTAs( event.target.value)
+      await this.props.fetchZCTAs( event.target.value)
     }
+    const coords = this.props.town.geom.coordinates[0][0]
+    const minMax = coords.reduce(( vals, coord) => {
+      if ( coord[0] < vals[0]) vals[0] = coord[0]
+      if ( coord[1] < vals[1]) vals[1] = coord[1]
+      if ( coord[0] > vals[2]) vals[2] = coord[0]
+      if ( coord[1] > vals[3]) vals[3] = coord[1]
+      return vals
+    }, [ ...coords[0], ...coords[0]])
+    var canvas = document.getElementById("myCanvas");
+    var ctx = canvas.getContext("2d");
+    const scale = ( ( 500 / (minMax[2] - minMax[0])) < ( 400 / (minMax[3] - minMax[1]))) ? 500 / (minMax[2] - minMax[0]) : 400 / (minMax[3] - minMax[1])
+    console.log( 'Inside Towns component, scale:\n', scale)
+    console.log( 'Inside Towns component, minMax:\n', minMax)
+    console.log( 'Inside Towns component, this.props.town.geom.coordinates:\n', this.props.town.geom.coordinates)
+    ctx.setTransform()
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.transform( scale, 0, 0, scale, -minMax[0] * scale, -minMax[1] * scale)
+    ctx.beginPath()
+    ctx.moveTo( coords[0][0], minMax[3] + minMax[ 1] - coords[ 0][ 1]);
+    coords.slice( 1).forEach( coord => {
+      ctx.lineTo( coord[ 0], minMax[3] + minMax[ 1] - coord[ 1])
+    })
+    // ctx.closePath()
+    ctx.lineWidth = Math.ceil( 1 / scale)
+    ctx.strokeStyle = '#00FF00'
+    ctx.stroke()
   }
   allTownName( event) {
     this.allTowns = event.target.checked
   }
-
   render() {
     return (
-      <div>
+      <div className='row'>
+      <div width='500px' className='col'>
         <form>
           <label>Towns</label>
           <select name="town" onChange={ this.changeTown}>
@@ -54,6 +80,10 @@ class Towns extends React.Component {
             })}
           </div>
         </div>
+      </div>
+      <div className='col'>
+        <canvas id="myCanvas" width="500" height="400"/>
+      </div>
       </div>
     )
   }
