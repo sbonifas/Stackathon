@@ -11,7 +11,7 @@ const GET_ZCTAS = 'GET_ZCTAS'
 /**
  * INITIAL STATE
  */
-const defaultState = { towns: [], town: {}, zctas: []}
+const defaultState = { towns: [], town: [], zctas: []}
 
 /**
  * ACTION CREATORS
@@ -34,7 +34,7 @@ export const fetchAllTowns = () => async dispatch => {
 export const fetchTownZCTAs = ( townGID) => async dispatch => {
   try {
     const res = await axios.get(`/api/towns/name/${townGID}`)
-    dispatch( getTown( res.data.town))
+    dispatch( getTown( res.data.towns))
     dispatch( getZCTAs( res.data.zctas))
   } catch ( err) {
     console.error( err)

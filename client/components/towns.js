@@ -18,33 +18,52 @@ class Towns extends React.Component {
     this.props.fetchAllTowns()
   }
 
-  getTownMaxMin( town) {
-    const coords = town.geom.coordinates[ 0][ 0]
-    const minMax = coords.reduce(( vals, coord) => {
-      if ( coord[ 0] < vals.minX) vals.minX = coord[ 0]
-      if ( coord[ 1] < vals.minY) vals.minY = coord[ 1]
-      if ( coord [0] > vals.maxX) vals.maxX = coord[ 0]
-      if ( coord [1] > vals.maxY) vals.maxY = coord[ 1]
-      return vals
-    }, { minX: coords[ 0][ 0], minY: coords[ 0][ 1], maxX: coords[ 0][ 0], maxY: coords[ 0][ 1]})
-    return { minMax, coords}
+  // getTownMaxMin( town) {
+  //   const coords = town.geom.coordinates[ 0][ 0]
+  //   const minMax = coords.reduce(( vals, coord) => {
+  //     if ( coord[ 0] < vals.minX) vals.minX = coord[ 0]
+  //     if ( coord[ 1] < vals.minY) vals.minY = coord[ 1]
+  //     if ( coord [0] > vals.maxX) vals.maxX = coord[ 0]
+  //     if ( coord [1] > vals.maxY) vals.maxY = coord[ 1]
+  //     return vals
+  //   }, { minX: coords[ 0][ 0], minY: coords[ 0][ 1], maxX: coords[ 0][ 0], maxY: coords[ 0][ 1]})
+  //   return { minMax, coords}
+  // }
+  getTownsMaxMin( towns) {
+    let allCoords = []
+    let coords = towns[0].geom.coordinates[ 0][ 0]
+    let minMax = { minX: coords[ 0][ 0], minY: coords[ 0][ 1], maxX: coords[ 0][ 0], maxY: coords[ 0][ 1]}
+    towns.forEach( town => {
+      coords = town.geom.coordinates[ 0][ 0]
+      allCoords.push( coords)
+      minMax = coords.reduce(( vals, coord) => {
+        if ( coord[ 0] < vals.minX) vals.minX = coord[ 0]
+        if ( coord[ 1] < vals.minY) vals.minY = coord[ 1]
+        if ( coord [0] > vals.maxX) vals.maxX = coord[ 0]
+        if ( coord [1] > vals.maxY) vals.maxY = coord[ 1]
+        return vals
+      }, minMax)
+    })
+    return { minMax,allCoords}
   }
 
-  drawCoords( { minMax, coords, zctas}) {
+  drawCoords( { minMax, allCoords, zctas}) {
     const canvas = document.getElementById( "myCanvas");
     const ctx = canvas.getContext( "2d");
     const scale = (( 500 / ( minMax.maxX - minMax.minX)) < ( 400 / ( minMax.maxY - minMax.minY))) ? (500 / ( minMax.maxX - minMax.minX)) : (400 / ( minMax.maxY - minMax.minY))
     ctx.setTransform()
     ctx.clearRect( 0, 0, canvas.width, canvas.height);
     ctx.transform( scale, 0, 0, scale, -minMax.minX * scale, -minMax.minY * scale)
-    ctx.beginPath()
-    ctx.moveTo( coords[ 0][ 0], minMax.maxY + minMax.minY - coords[ 0][ 1]);
-    coords.slice( 1).forEach( coord => {
-      ctx.lineTo( coord[ 0], minMax.maxY + minMax.minY - coord[ 1])
+    allCoords.forEach( coords => {
+      ctx.beginPath()
+      ctx.moveTo( coords[ 0][ 0], minMax.maxY + minMax.minY - coords[ 0][ 1]);
+      coords.slice( 1).forEach( coord => {
+        ctx.lineTo( coord[ 0], minMax.maxY + minMax.minY - coord[ 1])
+      })
+      ctx.lineWidth = Math.ceil( 1 / scale)
+      ctx.strokeStyle = '#00FF00'
+      ctx.stroke()
     })
-    ctx.lineWidth = Math.ceil( 1 / scale)
-    ctx.strokeStyle = '#00FF00'
-    ctx.stroke()
     ctx.font = `${ 10 / scale}px Arial`
     zctas.forEach( zcta => {
       ctx.fillText( 'ZCTA', zcta.thepoint_26986.coordinates[0], minMax.maxY + minMax.minY - zcta.thepoint_26986.coordinates[1])
@@ -56,9 +75,11 @@ class Towns extends React.Component {
       await this.props.fetchTownZCTAs( event.target.value)
     } else {
       await this.props.fetchZCTAs( event.target.value)
+      // const { minMax, coords} = this.getTownMaxMin( this.props.town)
+      // this.drawCoords( { minMax, coords, zctas: this.props.zctas})
     }
-    const { minMax, coords} = this.getTownMaxMin( this.props.town)
-    this.drawCoords( { minMax, coords, zctas: this.props.zctas})
+    const { minMax, allCoords} = this.getTownsMaxMin( this.props.town)
+    this.drawCoords( { minMax, allCoords, zctas: this.props.zctas})
   }
 
   allTownName( event) {
