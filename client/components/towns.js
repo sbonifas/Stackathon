@@ -128,9 +128,9 @@ class Towns extends React.Component {
  */
 const mapState = ( state) => {
   return {
-    towns: state.towns.towns,
-    town: state.towns.town,
-    zctas: state.towns.zctas
+    towns: state.towns,
+    town: state.town,
+    zctas: state.zctas
   }
 }
 const mapDispatch = dispatch => {
