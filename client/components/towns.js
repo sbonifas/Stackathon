@@ -18,17 +18,6 @@ class Towns extends React.Component {
     this.props.fetchAllTowns()
   }
 
-  // getTownMaxMin( town) {
-  //   const coords = town.geom.coordinates[ 0][ 0]
-  //   const minMax = coords.reduce(( vals, coord) => {
-  //     if ( coord[ 0] < vals.minX) vals.minX = coord[ 0]
-  //     if ( coord[ 1] < vals.minY) vals.minY = coord[ 1]
-  //     if ( coord [0] > vals.maxX) vals.maxX = coord[ 0]
-  //     if ( coord [1] > vals.maxY) vals.maxY = coord[ 1]
-  //     return vals
-  //   }, { minX: coords[ 0][ 0], minY: coords[ 0][ 1], maxX: coords[ 0][ 0], maxY: coords[ 0][ 1]})
-  //   return { minMax, coords}
-  // }
   getTownsMaxMin( towns) {
     let allCoords = []
     let coords = towns[0].geom.coordinates[ 0][ 0]

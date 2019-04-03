@@ -14,7 +14,17 @@ const ZCTAs = db.define('zctas', {
   longitude: Sequelize.FLOAT,
   thepoint_lonlat: Sequelize.GEOMETRY( 'POINT'),
   thepoint_meter: Sequelize.GEOMETRY( 'POINT'),
-  thepoint_26986: Sequelize.GEOMETRY( 'POINT', 26986)
+  thepoint_26986: Sequelize.GEOMETRY( 'POINT', 26986),
+  createdAt: {
+    allowNull: false,
+    defaultValue: new Date(),
+    type: Sequelize.DATE
+  },
+  updatedAt: {
+    allowNull: false,
+    defaultValue: new Date(),
+    type: Sequelize.DATE
+  }
 })
 
 module.exports = ZCTAs

@@ -29,17 +29,17 @@ const Towns = db.define('towns', {
   popch00_10: Sequelize.INTEGER,
   shape_area: Sequelize.FLOAT,
   shape_len: Sequelize.FLOAT,
-  geom: Sequelize.GEOMETRY( 'POLYGON', 26986),
-  // createdAt: {
-  //   allowNull: false,
-  //   defaultValue: new Date(),
-  //   type: Sequelize.DATE
-  // },
-  // updatedAt: {
-  //   allowNull: false,
-  //   defaultValue: new Date(),
-  //   type: Sequelize.DATE
-  // }
+  geom: Sequelize.GEOMETRY( 'MULTIPOLYGON', 26986),
+  createdAt: {
+    allowNull: false,
+    defaultValue: new Date(),
+    type: Sequelize.DATE
+  },
+  updatedAt: {
+    allowNull: false,
+    defaultValue: new Date(),
+    type: Sequelize.DATE
+  }
 })
 
 module.exports = Towns
