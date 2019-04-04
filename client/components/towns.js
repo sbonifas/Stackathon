@@ -97,7 +97,7 @@ class Towns extends React.Component {
             {this.props.zctas.map( zcta => {
               return <p key={ zcta.zcta}>
               <b>ZCTA: </b> { zcta.zcta}
-              <b>Size(sq.mi.): </b> { Number( zcta.water_area_mile + zcta.land_area_mile).toFixed( 2)}
+              <b>Size (sq. mi.): </b> { Number( zcta.water_area_mile + zcta.land_area_mile).toFixed( 2)}
               <b>Latitude: </b> { Number( zcta.latitude).toFixed( 4)}
               <b>Longitude: </b> { Number( zcta.longitude).toFixed( 4)}</p>
             })}
