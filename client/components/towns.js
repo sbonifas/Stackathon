@@ -90,7 +90,7 @@ class Towns extends React.Component {
         </form>
         <div>
           <div>
-            {(this.props.town.gid) ? (<div><p><b>Town:</b> { this.props.town.town}<b>Population 2010:</b>{this.props.town.pop2010}</p>
+            {(this.props.town[ 0]) ? (<div><p><b>Town:</b> { this.props.town[ 0].town}<b>Population 2010:</b>{this.props.town[ 0].pop2010}<b>Area:</b>{this.props.townArea.toFixed( 2) + ' '}sq. miles</p>
             <h2>Zip Code Tabulation Areas</h2></div>) : ''}
           </div>
           <div>
@@ -119,6 +119,7 @@ const mapState = ( state) => {
   return {
     towns: state.towns,
     town: state.town,
+    townArea: state.townArea,
     zctas: state.zctas
   }
 }
